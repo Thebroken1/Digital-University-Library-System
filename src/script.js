@@ -176,48 +176,6 @@ function initializeEventListeners() {
         });
     });
     
-    // User Dashboard Tabs
-    const userTabs = document.querySelectorAll('#userDashboard .tab');
-    userTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabName = this.dataset.tab;
-            switchUserTab(tabName);
-        });
-    });
-    
-    // Admin Dashboard Tabs
-    const adminTabs = document.querySelectorAll('#adminDashboard .tab');
-    adminTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabName = this.dataset.tab;
-            switchAdminTab(tabName);
-        });
-    });
-    
-    // Search Filters
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            searchBy = this.dataset.search;
-            document.getElementById('searchInput').placeholder = `Search by ${searchBy}...`;
-            renderAvailableBooks();
-        });
-    });
-    
-    // Search Input
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', renderAvailableBooks);
-    }
-    
-    // Add Book Form
-    const addBookForm = document.getElementById('addBookForm');
-    if (addBookForm) {
-        addBookForm.addEventListener('submit', handleAddBook);
-    }
-    
     // Review Form
     const reviewForm = document.getElementById('reviewForm');
     if (reviewForm) {
@@ -290,23 +248,21 @@ function showDashboard() {
     document.getElementById('loginPage').classList.remove('active');
     
     if (currentUser.role === 'admin') {
-        document.getElementById('adminUsername').textContent = currentUser.username;
-        document.getElementById('adminDashboard').classList.add('active');
-        updateAdminStats();
-        renderBorrowedBooksTable();
+        loadDashboard('admin-dashboard.html').then(() => {
+            document.getElementById('adminUsername').textContent = currentUser.username;
+            document.getElementById('adminDashboard').classList.add('active');
+        });
     } else {
-        document.getElementById('userUsername').textContent = currentUser.username;
-        document.getElementById('userDashboard').classList.add('active');
-        updateUserStats();
-        renderAvailableBooks();
-        renderBorrowedBooks();
+        loadDashboard('user-dashboard.html').then(() => {
+            document.getElementById('userUsername').textContent = currentUser.username;
+            document.getElementById('userDashboard').classList.add('active');
+        });
     }
 }
 
 function logout() {
     currentUser = null;
-    document.getElementById('userDashboard').classList.remove('active');
-    document.getElementById('adminDashboard').classList.remove('active');
+    document.getElementById('dashboard-container').innerHTML = '';
     document.getElementById('loginPage').classList.add('active');
     document.getElementById('loginForm').reset();
     document.getElementById('username').value = '';
@@ -452,7 +408,7 @@ function createBookCard(book, actionType, index) {
                         <span>Borrowed on ${book.borrowedDate}</span>
                     </div>
                 ` : ''}
-                ${book.status === 'borrowed' && book.borrowedBy && actionType === 'borrow' ? `
+${book.status === 'borrowed' && book.borrowedBy && actionType === 'borrow' ? `
                     <div class="book-meta borrowed-by">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -836,7 +792,7 @@ function handleAddReview(e) {
     book.reviews.push(newReview);
     
     // Recalculate average rating
-    const totalRating = book.reviews.reduce((sum, r) => sum + r.rating, 0);
+ const totalRating = book.reviews.reduce((sum, r) => sum + r.rating, 0);
     book.rating = Math.round((totalRating / book.reviews.length) * 10) / 10;
     
     // Update modal
@@ -852,6 +808,70 @@ function handleAddReview(e) {
     if (currentUser.role === 'user') {
         renderAvailableBooks();
         renderBorrowedBooks();
+    }
+}
+
+// New: Load dashboard HTML dynamically
+async function loadDashboard(file) {
+    try {
+        const response = await fetch(file);
+        if (!response.ok) throw new Error('Failed to load dashboard');
+        const html = await response.text();
+        document.getElementById('dashboard-container').innerHTML = html;
+        // After loading, attach listeners and initialize
+        if (file === 'user-dashboard.html') {
+            attachUserDashboardListeners();
+            updateUserStats();
+            renderAvailableBooks();
+            renderBorrowedBooks();
+        } else if (file === 'admin-dashboard.html') {
+            attachAdminDashboardListeners();
+            updateAdminStats();
+            renderBorrowedBooksTable();
+        }
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+        document.getElementById('dashboard-container').innerHTML = '<p>Error loading dashboard. Please refresh.</p>';
+    }
+}
+
+// New: Attach listeners for user dashboard elements
+function attachUserDashboardListeners() {
+    const userTabs = document.querySelectorAll('#userDashboard .tab');
+    userTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.dataset.tab;
+            switchUserTab(tabName);
+        });
+    });
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            searchBy = this.dataset.search;
+            document.getElementById('searchInput').placeholder = `Search by ${searchBy}...`;
+            renderAvailableBooks();
+        });
+    });
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', renderAvailableBooks);
+    }
+}
+
+// New: Attach listeners for admin dashboard elements
+function attachAdminDashboardListeners() {
+    const adminTabs = document.querySelectorAll('#adminDashboard .tab');
+    adminTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.dataset.tab;
+            switchAdminTab(tabName);
+        });
+    });
+    const addBookForm = document.getElementById('addBookForm');
+    if (addBookForm) {
+        addBookForm.addEventListener('submit', handleAddBook);
     }
 }
 
