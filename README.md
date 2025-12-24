@@ -8,4 +8,13 @@
   Run `npm i` to install the dependencies.
 
   Run `npm run dev` to start the development server.
+  \
+
+
+  Zubairs work
+
+  seperate interface into 2 (user/admin)
+  making it work
+  Vasihnavs work
   
+
