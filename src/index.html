@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Library System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="animated-bg">
+                <div class="bg-circle bg-circle-1"></div>
+                <div class="bg-circle bg-circle-2"></div>
+            </div>
+            
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="rotating-bg rotating-bg-1"></div>
+                    <div class="rotating-bg rotating-bg-2"></div>
+                    
+                    <div class="login-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </div>
+                    
+                    <h1>Digital Library System ✨</h1>
+                    <p>Welcome back! Please login to continue</p>
+                </div>
+                
+                <div class="login-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label>Login As</label>
+                            <div class="role-buttons">
+                                <button type="button" class="role-btn active" data-role="user">User</button>
+                                <button type="button" class="role-btn" data-role="admin">Admin</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <input type="text" id="username" placeholder="Enter your username" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                <input type="password" id="password" placeholder="Enter your password" required>
+                            </div>
+                        </div>
+                        
+                        <div id="loginError" class="error-message" style="display: none;"></div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">Login</button>
+                    </form>
+                    
+                    <div class="demo-credentials">
+                        <p class="demo-title">✨ Demo Credentials:</p>
+                        <p><strong>User:</strong> any username / user123</p>
+                        <p><strong>Admin:</strong> any username / admin123</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Dashboard -->
+    <div id="userDashboard" class="page">
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <div class="header-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1>Digital Library ✨</h1>
+                            <p class="header-subtitle">Welcome, <span id="userUsername"></span></p>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="logout()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="stats-bar">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card stat-blue">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="stat-label">Total Books</p>
+                            <p class="stat-value" id="totalBooksCount">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card stat-green">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="stat-label">Available</p>
+                            <p class="stat-value" id="availableBooksCount">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card stat-purple">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                <line x1="10" y1="7" x2="8" y2="7"></line>
+                                <line x1="16" y1="7" x2="8" y2="7"></line>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="stat-label">My Books</p>
+                            <p class="stat-value" id="myBooksCount">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="container">
+                <div class="tabs">
+                    <button class="tab active" data-tab="search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        Search & Borrow Books
+                    </button>
+                    <button class="tab" data-tab="borrowed">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            <line x1="10" y1="7" x2="8" y2="7"></line>
+                        </svg>
+                        My Borrowed Books
+                        <span class="badge" id="borrowedBadge" style="display: none;">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <main class="container main-content">
+            <!-- Search Tab -->
+            <div id="searchTab" class="tab-content active">
+                <div class="search-section">
+                    <h2 class="section-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        Search Books
+                    </h2>
+                    
+                    <div class="search-filters">
+                        <button class="filter-btn active" data-search="title">Search by Title</button>
+                        <button class="filter-btn" data-search="author">Search by Author</button>
+                    </div>
+                    
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search by title...">
+                    </div>
+                </div>
+                
+                <h2 class="section-title">
+                    ✨ Available Books (<span id="availableCount">0</span>)
+                </h2>
+                <div id="availableBooksGrid" class="books-grid"></div>
+            </div>
+
+            <!-- Borrowed Tab -->
+            <div id="borrowedTab" class="tab-content">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    My Borrowed Books (<span id="borrowedCount">0</span>)
+                </h2>
+                <div id="borrowedBooksGrid" class="books-grid"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="page">
+        <header class="dashboard-header admin-header">
+            <div class="rotating-bg-admin rotating-bg-1"></div>
+            <div class="rotating-bg-admin rotating-bg-2"></div>
+            
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <div class="header-icon admin-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="admin-title">Admin Dashboard ✨</h1>
+                            <p class="header-subtitle">Welcome, <span id="adminUsername"></span></p>
+                        </div>
+                    </div>
+                    <button class="btn btn-admin" onclick="logout()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container admin-stats">
+            <div class="stats-grid-admin">
+                <div class="admin-stat-card">
+                    <div>
+                        <p class="stat-label">Total Books</p>
+                        <p class="stat-value" id="adminTotalBooks">0</p>
+                    </div>
+                    <div class="admin-stat-icon stat-blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="admin-stat-card">
+                    <div>
+                        <p class="stat-label">Available Books</p>
+                        <p class="stat-value" id="adminAvailableBooks">0</p>
+                    </div>
+                    <div class="admin-stat-icon stat-green">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="admin-stat-card">
+                    <div>
+                        <p class="stat-label">Currently Borrowed</p>
+                        <p class="stat-value" id="adminBorrowedBooks">0</p>
+                    </div>
+                    <div class="admin-stat-icon stat-orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="admin-tabs-card">
+                <div class="tabs admin-tabs">
+                    <button class="tab active" data-tab="addBook">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Add New Book
+                    </button>
+                    <button class="tab" data-tab="viewBorrowed">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                        </svg>
+                        View Borrowed Books
+                        <span class="badge" id="adminBorrowedBadge" style="display: none;">0</span>
+                    </button>
+                </div>
+                
+                <div class="admin-tab-content">
+                    <!-- Add Book Tab -->
+                    <div id="addBookTab" class="tab-content active">
+                        <div class="form-header">
+                            <div class="form-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2>Add New Book ✨</h2>
+                                <p class="form-subtitle">Enter the details of the new book to add to the library</p>
+                            </div>
+                        </div>
+                        
+                        <div id="successMessage" class="success-message" style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Book added successfully!
+                        </div>
+                        
+                        <form id="addBookForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="bookTitle">Book Title <span class="required">*</span></label>
+                                    <input type="text" id="bookTitle" placeholder="Enter book title" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bookAuthor">Author Name <span class="required">*</span></label>
+                                    <input type="text" id="bookAuthor" placeholder="Enter author name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bookISBN">ISBN <span class="required">*</span></label>
+                                    <input type="text" id="bookISBN" placeholder="978-0-00-000000-0" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="bookCategory">Category <span class="required">*</span></label>
+                                    <select id="bookCategory" required>
+                                        <option value="">Select a category</option>
+                                        <option value="Fiction">Fiction</option>
+                                        <option value="Non-Fiction">Non-Fiction</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Science">Science</option>
+                                        <option value="History">History</option>
+                                        <option value="Biography">Biography</option>
+                                        <option value="Self-Help">Self-Help</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Art">Art</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookDescription">Description <span class="required">*</span></label>
+                                <textarea id="bookDescription" placeholder="Enter a brief description of the book" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookCover">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                    Cover Image URL (Optional)
+                                </label>
+                                <input type="url" id="bookCover" placeholder="https://example.com/book-cover.jpg">
+                                <p class="form-help">Leave empty to use a default cover image</p>
+                            </div>
+                            
+                            <div class="info-message">
+                                <p>✨ New books will be automatically marked as "Available" and can be borrowed immediately.</p>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+                                <button type="submit" class="btn btn-primary">Add Book to Library</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- View Borrowed Tab -->
+                    <div id="viewBorrowedTab" class="tab-content">
+                        <div class="form-header">
+                            <div class="form-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2>Borrowed Books Overview</h2>
+                                <p class="form-subtitle">View all books that are currently borrowed and their respective borrowers</p>
+                            </div>
+                        </div>
+                        
+                        <div id="borrowedBooksTable"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeReviewModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <h2 id="modalBookTitle"></h2>
+                <p id="modalBookAuthor"></p>
+                <div class="modal-rating">
+                    <div class="stars" id="modalStars"></div>
+                    <span id="modalRatingText"></span>
+                    <span id="modalReviewCount"></span>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="book-description">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Description
+                    </h3>
+                    <p id="modalDescription"></p>
+                </div>
+                
+                <div class="reviews-section">
+                    <div class="reviews-header">
+                        <h3>Reviews (<span id="reviewsCount">0</span>)</h3>
+                        <button class="btn btn-primary btn-sm" id="writeReviewBtn" onclick="showReviewForm()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            Write a Review
+                        </button>
+                    </div>
+                    
+                    <form id="reviewForm" class="review-form" style="display: none;">
+                        <div class="form-group">
+                            <label>Your Rating</label>
+                            <div class="star-rating" id="userRating">
+                                <span class="star" data-rating="1">★</span>
+                                <span class="star" data-rating="2">★</span>
+                                <span class="star" data-rating="3">★</span>
+                                <span class="star" data-rating="4">★</span>
+                                <span class="star" data-rating="5">★</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewComment">Your Review</label>
+                            <textarea id="reviewComment" placeholder="Share your thoughts about this book..." rows="4" required></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="hideReviewForm()">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                                Submit Review
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="reviewsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
