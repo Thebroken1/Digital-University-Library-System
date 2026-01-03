@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library</title>
+    <script src="{% static 'main.js' %}"></script>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <p>Logged in as {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+    {% endif %}
+    {% block content %}{% endblock %}
+</body>
+</html>
