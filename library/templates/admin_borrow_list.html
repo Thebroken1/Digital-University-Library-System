@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Pending Borrow Requests</h1>
+
+{% if borrows %}
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+        <th>User</th>
+        <th>Book</th>
+        <th>Requested At</th>
+        <th>Action</th>
+    </tr>
+    {% for borrow in borrows %}
+    <tr>
+        <td>{{ borrow.user.username }}</td>
+        <td>{{ borrow.book.title }}</td>
+        <td>{{ borrow.created_at }}</td>
+        <td>
+            <form method="POST" action="{% url 'admin_process_borrow' borrow.id %}">
+                {% csrf_token %}
+                <button type="submit">Process Borrow</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No pending borrow requests.</p>
+{% endif %}
+{% endblock %}

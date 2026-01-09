@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="section-title">📘 Available Books</h2>
+
+<!-- 🔍 SEARCH BAR -->
+<form method="get" class="search-form">
+    <input
+        type="text"
+        name="q"
+        placeholder="Search by title or author"
+        value="{{ query }}"
+        class="search-input"
+    />
+    <button type="submit" class="search-btn">Search</button>
+
+    {% if query %}
+        <a href="{% url 'dashboard' %}" class="clear-search">Clear</a>
+    {% endif %}
+</form>
+
+<ul id="available-books" class="book-list">
+    {% include "partials/available_books_partial.html" %}
+</ul>
+
+<hr>
+
+<h2 class="section-title">📚 Your Borrowed Books</h2>
+
+<ul id="borrow-list" class="borrow-list">
+    {% for borrow in borrows %}
+        <li class="borrow-card">
+            <div class="borrow-header">
+                <strong>{{ borrow.book.title }}</strong>
+                <span class="status {{ borrow.status }}">
+                    {{ borrow.get_status_display }}
+                </span>
+            </div>
+
+            {% if borrow.status == 'borrowed' %}
+                <div class="borrow-meta">
+                    Taken on: {{ borrow.borrowed_at|date:"Y-m-d H:i" }} <br>
+                    Return by: {{ borrow.due_at|date:"Y-m-d H:i" }}
+                </div>
+
+                <span class="timer"
+                      data-due="{{ borrow.due_at|date:'Y-m-d H:i:s' }}">
+                </span>
+
+                <a class="btn-return"
+                   href="{% url 'request_return' borrow.id %}">
+                    Request Return
+                </a>
+            {% else %}
+                <p class="pending-text">
+                    ⏳ Waiting for admin approval
+                </p>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="empty-state">You have no borrowed books</li>
+    {% endfor %}
+</ul>
+
+<script>
+// ------------------ TIMER ------------------
+function formatTime(ms) {
+    if (ms <= 0) return "⚠️ Overdue";
+
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+    return `${days}d ${hours}h ${minutes}m`;
+}
+
+function startTimers() {
+    document.querySelectorAll(".timer").forEach(el => {
+        const due = new Date(el.dataset.due);
+
+        function tick() {
+            el.textContent = "Time left: " + formatTime(due - new Date());
+        }
+
+        tick();
+        setInterval(tick, 60000); // update every minute
+    });
+}
+
+// ------------------ BORROW LIST ------------------
+function refreshBorrows() {
+    fetch("{% url 'borrows_json' %}")
+        .then(res => res.json())
+        .then(data => {
+            const list = document.getElementById("borrow-list");
+            list.innerHTML = "";
+
+            if (!data.borrows.length) {
+                list.innerHTML = "<li class='empty-state'>You have no borrowed books</li>";
+                return;
+            }
+
+            data.borrows.forEach(item => {
+                const li = document.createElement("li");
+                li.className = "borrow-card";
+
+                li.innerHTML = `
+                    <div class="borrow-header">
+                        <strong>${item.book}</strong>
+                        <span class="status ${item.status}">
+                            ${item.status.replace("_", " ")}
+                        </span>
+                    </div>
+                `;
+
+                if (item.status === "borrowed") {
+                    li.innerHTML += `
+                        <div class="borrow-meta">
+                            Taken on: ${item.borrowed_at}<br>
+                            Return by: ${item.due_at}
+                        </div>
+                        <span class="timer" data-due="${item.due_at}"></span>
+                        <a class="btn-return" href="/return/${item.id}/">
+                            Request Return
+                        </a>
+                    `;
+                } else {
+                    li.innerHTML += `<p class="pending-text">⏳ Waiting for admin approval</p>`;
+                }
+
+                list.appendChild(li);
+            });
+
+            startTimers();
+        });
+}
+
+// ------------------ AVAILABLE BOOKS ------------------
+const searchInput = document.querySelector('.search-form input[name="q"]');
+
+function refreshAvailableBooks(query="") {
+    fetch("{% url 'available_books_partial' %}?q=" + encodeURIComponent(query))
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("available-books").innerHTML = html;
+        });
+}
+
+// Live search: update as user types
+searchInput.addEventListener('input', () => {
+    refreshAvailableBooks(searchInput.value);
+});
+
+// Refresh everything periodically
+setInterval(refreshBorrows, 5000);
+setInterval(() => refreshAvailableBooks(searchInput.value), 5000);
+
+// Initial load
+refreshBorrows();
+refreshAvailableBooks(searchInput.value);
+</script>
+
+{% endblock %}

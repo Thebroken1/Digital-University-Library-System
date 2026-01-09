@@ -1,0 +1,93 @@
+body{
+    height: 80vh;
+    width: 100%;
+    background-color: #03045E;
+    overflow: hidden;
+}
+
+.form-body{
+    height:40vh;
+    background-color: #0096C7;
+    width: 45%;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 30px;
+    text-align: center;
+}
+
+.form-main h3{
+    font-size: 50px;
+
+}
+h3{
+        color: #CAF0F8;
+}
+
+/* Input box */
+.my-input {
+  width: 100%;
+  padding: 14px 14px 10px;
+  border-radius: 10px;
+  border: 1.6px solid #d1d5db;
+  background: #f9fafb;
+  outline: none;
+  font-size: 0.95rem;
+  transition: border 0.25s ease, box-shadow 0.25s ease, background 0.25s;
+  margin-top: 35px;
+}
+
+
+/* Hover */
+.my-input:hover {
+  background: #ffffff;
+}
+
+/* Focus styles */
+.my-input:focus {
+  border-color: #03045E;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background: #ffffff;
+}
+
+
+/* Error styling (works with Django errorlist) */
+.errorlist {
+    position: absolute;
+    top: 50%;           /* vertically center with input */
+    transform: translateY(-50%);
+    left: 105%;         /* slightly right of the input */
+    margin: 0;
+    padding: 0;
+    color: #dc2626;
+    font-size: 0.8rem;
+    list-style: none;
+    white-space: nowrap; /* prevents line breaks */
+}
+p{
+    font-size: 13px;
+    position: relative;
+    left: 20%;
+    margin-top: 10px;
+}
+
+a{
+    color: #90E0EF;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+h3{
+    font-size: 32px;
+}
+
+.login{
+    background-color: #CAF0F8;
+    width: 40%;
+    height: 10%;
+    border-radius: 20px;
+    margin-top: 30px;
+    color: #023E8A;
+}

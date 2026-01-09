@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #1e293b;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: #93c5fd;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* ---------- AUTH ---------- */
+        .auth-wrapper {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-form p {
+            margin-bottom: 15px;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 8px 10px;
+            margin-top: 5px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #1e293b;
+            color: white;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #334155;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* ---------- BOOKS ---------- */
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .book-list,
+        .borrow-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .borrow-card {
+            background: #ffffff;
+            padding: 16px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+        }
+
+        .borrow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status.borrowed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.requested_return {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.returned {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .borrow-meta {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .timer {
+            display: block;
+            margin-top: 8px;
+            font-weight: 600;
+            color: #dc2626;
+        }
+
+        .btn-return {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: #1e293b;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn-return:hover {
+            background: #334155;
+        }
+
+        .empty-state {
+            color: #777;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>📚 Library System</h2>
+
+    {% if user.is_authenticated %}
+        <p>
+            Logged in as <strong>{{ user.username }}</strong> |
+            <a href="{% url 'logout' %}">Logout</a>
+        </p>
+    {% endif %}
+</header>
+
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    © 2026 Library Management System
+</footer>
+
+</body>
+</html>
